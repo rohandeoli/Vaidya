@@ -13,8 +13,9 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project   = "medical-ai"
-      ManagedBy = "terraform"
+      Project     = "medical-ai"
+      ManagedBy   = "terraform"
+      Environment = var.environment
     }
   }
 }

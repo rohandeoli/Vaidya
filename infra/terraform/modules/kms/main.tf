@@ -9,8 +9,8 @@ resource "aws_kms_key" "app" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "Enable IAM root access"
-        Effect    = "Allow"
+        Sid    = "Enable IAM root access"
+        Effect = "Allow"
         Principal = {
           AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
         }
@@ -35,8 +35,8 @@ resource "aws_kms_key" "reports" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "Enable IAM root access"
-        Effect    = "Allow"
+        Sid    = "Enable IAM root access"
+        Effect = "Allow"
         Principal = {
           AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
         }
