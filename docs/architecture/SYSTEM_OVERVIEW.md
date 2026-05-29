@@ -112,6 +112,17 @@ Handles all report lifecycle management.
 Primary: AWS Mumbai (`ap-south-1`) or GCP Mumbai (`asia-south1`).
 Reason: Data residency for Indian users under DPDP Act 2023. All PHI must remain in India.
 
+### Compute platform
+The API runs on **ECS Fargate** behind an **Application Load Balancer** (the ALB idle timeout, configurable to ~66 min, accommodates long-lived SSE streams). The ingestion worker runs as an **SQS-triggered AWS Lambda** — the event-source mapping is the natural fit for queue-driven OCR work and scales to zero when idle. The worker uses Textract's **async** API so it stays well under Lambda's 15-minute execution limit. App Runner was rejected (weak SSE support, no native SQS-worker model); EKS/EC2 were rejected as overkill for the MVP.
+
+### Networking (VPC)
+All resources live in a single VPC (`10.0.0.0/16`) in `ap-south-1`, spanning 2 availability zones with three subnet tiers:
+- **public** — only the ALB and the NAT gateway are internet-facing.
+- **private (app)** — Fargate tasks and the Lambda worker; outbound-only internet via a single NAT gateway.
+- **data** — RDS and Redis, with no internet route at all.
+
+VPC endpoints (S3 gateway; interface endpoints for SQS, Secrets Manager, Textract, ECR, CloudWatch Logs) keep AWS-service traffic off the public internet — only the external Claude and Cohere APIs egress via NAT. A single NAT gateway is used for the MVP (cost tradeoff accepted over one-NAT-per-AZ high availability).
+
 ### Async processing
 All file processing and AI calls are async. The client receives a job ID immediately and polls (or receives a push notification) when processing is complete. This prevents timeout issues on large scans and slow OCR jobs.
 

@@ -139,6 +139,17 @@ Raw uploaded files (PDFs, images, scans) are never publicly accessible.
 
 ---
 
+## Network isolation
+
+All infrastructure runs inside a single VPC in `ap-south-1` (see [`SYSTEM_OVERVIEW.md`](./SYSTEM_OVERVIEW.md#networking-vpc)). The network is the first line of defence around PHI:
+
+- **The database and cache are never internet-reachable.** RDS and Redis sit in dedicated *data* subnets with no route to the internet at all — not even outbound.
+- **Only the ALB is public.** It is the single internet-facing entry point; Fargate tasks and the Lambda worker run in private subnets, reachable only from the ALB or each other.
+- **Security groups reference other security groups, not IP ranges.** RDS accepts connections only from the API and worker security groups; Redis only from the API. The firewall chain is identity-based, so it holds as tasks scale.
+- **AWS-service traffic stays off the public internet.** VPC endpoints (S3 gateway; interface endpoints for SQS, Secrets Manager, Textract, ECR, CloudWatch Logs) route calls to AWS services privately. Only the external Claude and Cohere APIs egress via NAT.
+
+---
+
 ## Redis — no PHI rule
 
 Redis is used only for:
