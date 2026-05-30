@@ -34,3 +34,29 @@ output "elasticache_subnet_group_name" {
   description = "ElastiCache subnet group name"
   value       = module.vpc.elasticache_subnet_group_name
 }
+
+# Secrets
+output "rds_master_secret_arn" {
+  description = "ARN of the RDS master credentials secret"
+  value       = module.secrets.rds_master_secret_arn
+}
+
+output "redis_auth_token_secret_arn" {
+  description = "ARN of the Redis AUTH token secret"
+  value       = module.secrets.redis_auth_token_secret_arn
+}
+
+output "claude_api_key_secret_arn" {
+  description = "ARN of the Claude API key secret"
+  value       = module.secrets.claude_api_key_secret_arn
+}
+
+output "cohere_api_key_secret_arn" {
+  description = "ARN of the Cohere API key secret"
+  value       = module.secrets.cohere_api_key_secret_arn
+}
+
+output "supabase_jwt_secret_arn" {
+  description = "ARN of the Supabase JWT signing secret"
+  value       = module.secrets.supabase_jwt_secret_arn
+}
