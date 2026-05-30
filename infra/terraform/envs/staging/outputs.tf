@@ -35,6 +35,11 @@ output "elasticache_subnet_group_name" {
   value       = module.vpc.elasticache_subnet_group_name
 }
 
+output "s3_gateway_endpoint_id" {
+  description = "S3 gateway VPC endpoint ID (consumed by the s3 module's bucket policy)"
+  value       = module.vpc.s3_gateway_endpoint_id
+}
+
 # Secrets
 output "rds_master_secret_arn" {
   description = "ARN of the RDS master credentials secret"
