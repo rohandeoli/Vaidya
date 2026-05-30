@@ -17,3 +17,10 @@ module "secrets" {
   # hitting the "name already exists" error on rapid destroy/apply.
   recovery_window_in_days = 7
 }
+
+module "s3" {
+  source          = "../../modules/s3"
+  environment     = var.environment
+  reports_key_arn = module.kms.reports_key_arn
+  allowed_origins = ["http://localhost:3000"]
+}

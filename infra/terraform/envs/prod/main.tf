@@ -14,3 +14,11 @@ module "secrets" {
   app_key_arn = module.kms.app_key_arn
   # recovery_window_in_days defaults to 30 — the safety net we want in prod.
 }
+
+module "s3" {
+  source          = "../../modules/s3"
+  environment     = var.environment
+  reports_key_arn = module.kms.reports_key_arn
+  # TODO: replace with the prod web origin once the domain is registered.
+  allowed_origins = []
+}

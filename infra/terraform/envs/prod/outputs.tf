@@ -65,3 +65,14 @@ output "supabase_jwt_secret_arn" {
   description = "ARN of the Supabase JWT signing secret"
   value       = module.secrets.supabase_jwt_secret_arn
 }
+
+# S3
+output "reports_bucket_name" {
+  description = "Reports bucket name"
+  value       = module.s3.bucket_name
+}
+
+output "reports_bucket_arn" {
+  description = "Reports bucket ARN"
+  value       = module.s3.bucket_arn
+}
