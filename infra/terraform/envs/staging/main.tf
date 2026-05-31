@@ -24,3 +24,10 @@ module "s3" {
   reports_key_arn = module.kms.reports_key_arn
   allowed_origins = ["http://localhost:3000"]
 }
+
+module "sqs" {
+  source             = "../../modules/sqs"
+  environment        = var.environment
+  app_key_arn        = module.kms.app_key_arn
+  reports_bucket_arn = module.s3.bucket_arn
+}

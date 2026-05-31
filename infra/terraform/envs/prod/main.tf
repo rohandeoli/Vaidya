@@ -22,3 +22,10 @@ module "s3" {
   # TODO: replace with the prod web origin once the domain is registered.
   allowed_origins = []
 }
+
+module "sqs" {
+  source             = "../../modules/sqs"
+  environment        = var.environment
+  app_key_arn        = module.kms.app_key_arn
+  reports_bucket_arn = module.s3.bucket_arn
+}

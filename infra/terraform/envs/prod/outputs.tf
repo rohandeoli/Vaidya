@@ -76,3 +76,34 @@ output "reports_bucket_arn" {
   description = "Reports bucket ARN"
   value       = module.s3.bucket_arn
 }
+
+# SQS
+output "ocr_jobs_queue_arn" {
+  description = "OCR-jobs queue ARN"
+  value       = module.sqs.ocr_jobs_queue_arn
+}
+
+output "ocr_jobs_queue_url" {
+  description = "OCR-jobs queue URL"
+  value       = module.sqs.ocr_jobs_queue_url
+}
+
+output "ocr_jobs_dlq_arn" {
+  description = "OCR-jobs DLQ ARN"
+  value       = module.sqs.ocr_jobs_dlq_arn
+}
+
+output "extraction_jobs_queue_arn" {
+  description = "Extraction-jobs queue ARN"
+  value       = module.sqs.extraction_jobs_queue_arn
+}
+
+output "extraction_jobs_queue_url" {
+  description = "Extraction-jobs queue URL"
+  value       = module.sqs.extraction_jobs_queue_url
+}
+
+output "extraction_jobs_dlq_arn" {
+  description = "Extraction-jobs DLQ ARN"
+  value       = module.sqs.extraction_jobs_dlq_arn
+}
