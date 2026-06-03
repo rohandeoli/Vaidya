@@ -79,3 +79,16 @@ resource "aws_s3_bucket_cors_configuration" "reports" {
     max_age_seconds = 3000
   }
 }
+
+# One notification config per bucket (last-write-wins). Any future destinations
+# (SNS audit topic, second queue, etc.) must be added as more blocks inside
+# this same resource — not as a second aws_s3_bucket_notification.
+resource "aws_s3_bucket_notification" "reports" {
+  bucket = aws_s3_bucket.reports.id
+
+  queue {
+    queue_arn     = var.ocr_jobs_queue_arn
+    events        = ["s3:ObjectCreated:*"]
+    filter_prefix = var.upload_prefix
+  }
+}
