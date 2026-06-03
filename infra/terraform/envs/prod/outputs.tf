@@ -107,3 +107,34 @@ output "extraction_jobs_dlq_arn" {
   description = "Extraction-jobs DLQ ARN"
   value       = module.sqs.extraction_jobs_dlq_arn
 }
+
+# RDS
+output "db_endpoint" {
+  description = "RDS connection endpoint (host:port) — feed into app config and SSM tunnels"
+  value       = module.rds.db_endpoint
+}
+
+output "db_address" {
+  description = "RDS hostname (no port)"
+  value       = module.rds.db_address
+}
+
+output "db_port" {
+  description = "RDS port"
+  value       = module.rds.db_port
+}
+
+output "db_name" {
+  description = "Initial database name"
+  value       = module.rds.db_name
+}
+
+output "db_instance_arn" {
+  description = "RDS instance ARN"
+  value       = module.rds.db_instance_arn
+}
+
+output "db_security_group_id" {
+  description = "RDS security group ID (compute module attaches ingress rules here)"
+  value       = module.rds.db_security_group_id
+}
