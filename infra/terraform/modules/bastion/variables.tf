@@ -18,6 +18,11 @@ variable "rds_security_group_id" {
   type        = string
 }
 
+variable "redis_security_group_id" {
+  description = "Redis security group ID. The bastion module attaches an ingress rule to this SG allowing TCP 6379 from the bastion's own SG."
+  type        = string
+}
+
 variable "instance_type" {
   description = "EC2 instance type. t4g.nano (ARM, ~$3/mo) is plenty — the bastion forwards bytes, it doesn't compute."
   type        = string

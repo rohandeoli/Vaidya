@@ -138,3 +138,29 @@ output "db_security_group_id" {
   description = "RDS security group ID (compute module attaches ingress rules here)"
   value       = module.rds.db_security_group_id
 }
+
+# Redis
+output "redis_primary_endpoint" {
+  description = "Redis primary endpoint hostname (writes)"
+  value       = module.redis.primary_endpoint_address
+}
+
+output "redis_reader_endpoint" {
+  description = "Redis reader endpoint hostname (reads)"
+  value       = module.redis.reader_endpoint_address
+}
+
+output "redis_port" {
+  description = "Redis port"
+  value       = module.redis.port
+}
+
+output "redis_replication_group_arn" {
+  description = "Redis replication group ARN"
+  value       = module.redis.replication_group_arn
+}
+
+output "redis_security_group_id" {
+  description = "Redis security group ID (compute module attaches ingress rules here)"
+  value       = module.redis.security_group_id
+}

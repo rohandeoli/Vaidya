@@ -73,6 +73,16 @@ resource "aws_security_group_rule" "bastion_egress_postgres" {
   description              = "Postgres to the RDS security group"
 }
 
+resource "aws_security_group_rule" "bastion_egress_redis" {
+  type                     = "egress"
+  security_group_id        = aws_security_group.bastion.id
+  protocol                 = "tcp"
+  from_port                = 6379
+  to_port                  = 6379
+  source_security_group_id = var.redis_security_group_id
+  description              = "Redis to the ElastiCache security group"
+}
+
 # The matching ingress rule on the RDS SG. Lives here (not in the rds module)
 # because the rds module has no concept of who its callers are — the bastion
 # module is the caller, so it adds itself.
@@ -84,6 +94,16 @@ resource "aws_security_group_rule" "rds_from_bastion" {
   to_port                  = 5432
   source_security_group_id = aws_security_group.bastion.id
   description              = "Allow Postgres from the staging bastion (SSM port forwarding)"
+}
+
+resource "aws_security_group_rule" "redis_from_bastion" {
+  type                     = "ingress"
+  security_group_id        = var.redis_security_group_id
+  protocol                 = "tcp"
+  from_port                = 6379
+  to_port                  = 6379
+  source_security_group_id = aws_security_group.bastion.id
+  description              = "Allow Redis from the staging bastion (SSM port forwarding)"
 }
 
 # ─────────────────────────────────────────────────────────────

@@ -58,12 +58,29 @@ module "rds" {
   skip_final_snapshot     = true
 }
 
+module "redis" {
+  source                        = "../../modules/redis"
+  environment                   = var.environment
+  vpc_id                        = module.vpc.vpc_id
+  elasticache_subnet_group_name = module.vpc.elasticache_subnet_group_name
+  app_key_arn                   = module.kms.app_key_arn
+  redis_auth_token_secret_arn   = module.secrets.redis_auth_token_secret_arn
+
+  # Staging defaults — single node, no failover, minimal snapshot.
+  node_type                  = "cache.t4g.micro"
+  num_cache_clusters         = 1
+  automatic_failover_enabled = false
+  multi_az_enabled           = false
+  snapshot_retention_limit   = 1
+}
+
 # Bastion is staging-only. Production access goes through the API; there is
-# no human-tunnel path to the prod database.
+# no human-tunnel path to the prod database or cache.
 module "bastion" {
-  source                = "../../modules/bastion"
-  environment           = var.environment
-  vpc_id                = module.vpc.vpc_id
-  subnet_id             = module.vpc.private_subnet_ids[0]
-  rds_security_group_id = module.rds.db_security_group_id
+  source                  = "../../modules/bastion"
+  environment             = var.environment
+  vpc_id                  = module.vpc.vpc_id
+  subnet_id               = module.vpc.private_subnet_ids[0]
+  rds_security_group_id   = module.rds.db_security_group_id
+  redis_security_group_id = module.redis.security_group_id
 }

@@ -55,3 +55,19 @@ module "rds" {
   deletion_protection     = true
   skip_final_snapshot     = false
 }
+
+module "redis" {
+  source                        = "../../modules/redis"
+  environment                   = var.environment
+  vpc_id                        = module.vpc.vpc_id
+  elasticache_subnet_group_name = module.vpc.elasticache_subnet_group_name
+  app_key_arn                   = module.kms.app_key_arn
+  redis_auth_token_secret_arn   = module.secrets.redis_auth_token_secret_arn
+
+  # Prod defaults — primary + 1 replica, multi-AZ failover.
+  node_type                  = "cache.t4g.small"
+  num_cache_clusters         = 2
+  automatic_failover_enabled = true
+  multi_az_enabled           = true
+  snapshot_retention_limit   = 1
+}
