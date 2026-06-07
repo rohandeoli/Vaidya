@@ -1,0 +1,10 @@
+{
+  "name": "@vaidya/api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'uvicorn main:app — wired in step 4'",
+    "build": "echo 'no js build for python service'",
+    "lint": "echo 'ruff — wired later'"
+  }
+}

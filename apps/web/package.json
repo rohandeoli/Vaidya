@@ -1,0 +1,10 @@
+{
+  "name": "@vaidya/web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'next dev — wired in step 5'",
+    "build": "echo 'next build — wired in step 5'",
+    "lint": "echo 'next lint — wired in step 5'"
+  }
+}
